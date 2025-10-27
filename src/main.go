@@ -21,7 +21,9 @@ func main() {
 
 	contents := string(file)
 
-	token.Tokenize(contents)
+	result := token.Tokenize(contents)
+
+	fmt.Println(result)
 
 }
 
