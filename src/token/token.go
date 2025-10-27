@@ -65,3 +65,20 @@ func Tokenize(str string) []Token {
 
 	return tokens
 }
+
+// todo mejorar esta funcion, ahora esta hard code para tener un output
+func TokensToAsm(tokens []Token) string {
+	var output strings.Builder
+	output.WriteString("global _start\n_start:\n")
+	firstToken := tokens[0]
+	secondToken := tokens[1]
+
+	if firstToken.token == _return && secondToken.token == int_lit {
+		output.WriteString("  mov rax, 60\n")
+		output.WriteString("  mov rdi, " + secondToken.value + "\n")
+		output.WriteString("  syscall")
+	}
+
+	return output.String()
+
+}

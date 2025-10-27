@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"os"
+	"steak/src/file"
+	"steak/src/scripts"
 	"steak/src/token"
 )
 
@@ -15,20 +17,20 @@ func main() {
 	}
 
 	filePath := args[1]
-	file, err := os.ReadFile(filePath)
+	dat, err := os.ReadFile(filePath)
 
-	checkError(err)
+	file.CheckFile(err)
 
-	contents := string(file)
+	contents := string(dat)
 
-	result := token.Tokenize(contents)
+	tokens := token.Tokenize(contents)
+	asm := token.TokensToAsm(tokens)
+	fileCreation := file.CreateAsmFile(asm)
 
-	fmt.Println(result)
-
-}
-
-func checkError(err error) {
-	if err != nil {
-		panic(err)
+	if fileCreation {
+		fmt.Println("Archivo creado correctamente")
+		fmt.Println("Creando archivo de ejecucion")
+		scripts.CreateObjectFile()
 	}
+
 }
